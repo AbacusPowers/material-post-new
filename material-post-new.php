@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: Material Design Post New Button
+Plugin Name: Post New FAB
 Plugin URI:  http://advisantgroup.com
-Description: Add a Google-style button for posting new items. Works with post types or URL links
-Version:     0.1
+Description: Add a Google-style, material design floating action button for posting new items. Works with post types or URL links.
+Version:     1.0
 Author:      Justin Maurer
 Author URI:  http://advisantgroup.com
 License:     GPL2
@@ -20,6 +20,14 @@ define( 'MATERIAL_POST_PATH', plugin_dir_path( __FILE__ ) );
 if (file_exists(__DIR__ . '/vendor/CMB2/init.php')) {
     require_once __DIR__ . '/vendor/CMB2/init.php';
 }
+require 'plugin_update_check.php';
+$MyUpdateChecker = new PluginUpdateChecker_2_0 (
+    'https://kernl.us/api/v1/updates/56feced9eba7ad1a1c8312fe/',
+    __FILE__,
+    'post-new-fab',
+    1
+);
+
 include( MATERIAL_POST_PATH . 'options-page.php');
 
 /**
