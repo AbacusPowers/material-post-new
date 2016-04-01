@@ -1,0 +1,59 @@
+//@import "buttons/buttons";
+.fixed-action-btn {
+  ul {
+    li {
+      position: relative;
+      span.post-new-label {
+        display: block;
+        position: absolute;
+        right: 4em;
+        width: auto;
+        height: auto;
+        text-transform: initial;
+        background: white;
+        color: #999;
+        padding: 0.1em 0.5em;
+        opacity: 0.9;
+
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+
+        -webkit-transition: all .9s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+        -o-transition: all .9s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+        -moz-transition: all .9s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+        -ms-transition: all .9s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+        -kthtml-transition: all .9s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+        transition: all .9s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+      }
+      &:hover {
+        .post-new-label {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+#material-post-overlay {
+  display: none;
+  opacity: 0;
+  position: fixed;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  z-index: 80;
+  body.material-post-active & {
+    display:block;
+    opacity: 0.4;
+    -webkit-transition: all .9s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+    -o-transition: all .9s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+    -moz-transition: all .9s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+    -ms-transition: all .9s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+    -kthtml-transition: all .9s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+    transition: all .9s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+  }
+}
+
