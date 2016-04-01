@@ -3,7 +3,7 @@
 Plugin Name: Post New FAB
 Plugin URI:  http://advisantgroup.com
 Description: Add a Google-style, material design floating action button for posting new items. Works with post types or URL links.
-Version:     1.0.3
+Version:     1.1.0
 Author:      Justin Maurer
 Author URI:  http://advisantgroup.com
 License:     GPL2
@@ -114,17 +114,13 @@ function materialPostContent()
             <?php
             //Loop through all post types and decide whether to use text URL or WP admin's post new page
             foreach($buttonPostTypes as $option) {
-                $url = $option['post_new_url'];
-                $post_type = $option['post_type'];
+
                 $label = $option['post_new_label'];
                 $color = $option['post_type_button_colorpicker'];
 
-                //If a URL is given, use it. Otherwise, use the selected post type.
-                if ($url === false || $url == null) {
-                    $link = 'wp-admin/post-new.php?post_type=' . $post_type;
-                } else {
-                    $link = $url;
-                }
+                $link = materialGetURL($option);
+
+
                 echo '<li><span class="post-new-label btn btn-floating">'. $label .'</span><a href="' . $link . '" class="material-post-new-button btn-floating"><i class="material-icons" style="background-color:' . $color . ';">&#xE150;</i></a></li>';
             }
             ?>
@@ -135,3 +131,43 @@ function materialPostContent()
 }
 
 add_action('wp_footer', 'materialPostContent');
+
+/**
+ * Do logic for determining URL
+ *
+ * @param array $option
+ */
+function materialGetURL(Array $option) {
+    $method = $option['url_method'];
+    $url = $option['post_new_url'];
+    $post_type = $option['post_type'];
+    $variableURL = $option['post_new_variable_url'];
+
+    $variableType = $option['post_new_variable'];
+
+    if ($method === 'post-type') {
+        $link = 'wp-admin/post-new.php?post_type=' . $post_type;
+    } elseif ($method === 'variable-url') {
+        $currentUserID = get_current_user_id();
+        $nicename = get_userdata($currentUserID)->user_nicename;
+        $bpUserSlug = bp_core_get_username( $currentUserID );
+        $pattern = '/({#})/';
+        switch ($variableType) {
+            case 'user-id':
+                $variable = $currentUserID;
+                break;
+            case 'user-slug':
+                $variable = $nicename;
+                break;
+            case 'bp-user-slug':
+                $variable = $bpUserSlug;
+                break;
+        }
+
+
+        $link = preg_replace($pattern, $variable, $variableURL);
+    } else {
+        $link = $url;
+    }
+    return $link;
+}

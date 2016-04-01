@@ -125,8 +125,8 @@ class MaterialPostAdmin
             'show_on' => array(
                 // These are important, don't remove
                 'key' => 'options-page',
-                'value' => array($this->key,)
-            ),
+                'value' => array($this->key)
+            )
         ));
         // Set our CMB2 fields
         $cmb->add_field(array(
@@ -134,7 +134,7 @@ class MaterialPostAdmin
             'desc' => __('Select your primary color', 'material_post'),
             'id' => $prefix . 'post_new_button_colorpicker',
             'type' => 'colorpicker',
-            'default' => '#904199',
+            'default' => '#904199'
         ));
         $postNewItemField = $cmb->add_field(array(
             'id'            => $prefix . 'post_new_item',
@@ -152,7 +152,18 @@ class MaterialPostAdmin
             'name' => __('Label', 'material_post'),
             'desc' => __('Label for post type', 'material_post'),
             'id' => 'post_new_label',
-            'type' => 'text',
+            'type' => 'text'
+        ));
+        $cmb->add_group_field($postNewItemField, array(
+            'name'             => 'URL method',
+            'id'               => 'url_method',
+            'type'             => 'radio',
+            'show_option_none' => false,
+            'options'          => array(
+                'post-type' => __( 'Post Type', 'material_post' ),
+                'url'   => __( 'URL', 'material_post' ),
+                'variable-url'     => __( 'URL with variable', 'material_post' )
+            )
         ));
         $cmb->add_group_field($postNewItemField, array(
             'name'  => 'Post Type',
@@ -170,11 +181,30 @@ class MaterialPostAdmin
             'type' => 'text_url',
         ));
         $cmb->add_group_field($postNewItemField, array(
+            'name' => __('URL with custom variable', 'material_post'),
+            'desc' => __('If session-related variables are required, use {#} in place of the variable. For example: "/members/{#}/profile". ', 'material_post'),
+            'id' => 'post_new_variable_url',
+            'type' => 'text'
+        ));
+        $cmb->add_group_field($postNewItemField, array(
+            'name'             => 'Variable to use',
+            'desc'             => 'Select which item to insert into URL.',
+            'id'               => 'post_new_variable',
+            'type'             => 'select',
+            'show_option_none' => true,
+            'options'          => array(
+                'none'     => __( 'none', 'material_post' ),
+                'user-slug' => __( 'Logged-in User Slug', 'material_post' ),
+                'user-id'   => __( 'Logged-in User ID', 'material_post' ),
+                'bp-user-slug' => __( 'Logged-in User\'s BuddyPress Slug', 'material_post' ),
+            )
+        ));
+        $cmb->add_group_field($postNewItemField, array(
             'name' => __('Button Color', 'material_post'),
             'desc' => __('Select color for this post type', 'material_post'),
             'id' => 'post_type_button_colorpicker',
             'type' => 'colorpicker',
-            'default' => '#e1df74',
+            'default' => '#e1df74'
         ));
     }
 
