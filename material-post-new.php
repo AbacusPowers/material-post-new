@@ -15,7 +15,7 @@ Text Domain: material_post
 /*
  * Require necessary libraries
  */
-define( 'MATERIAL_POST_PATH', plugin_dir_path( __FILE__ ) );
+define('MATERIAL_POST_PATH', plugin_dir_path(__FILE__));
 
 if (file_exists(__DIR__ . '/vendor/CMB2/init.php')) {
     require_once __DIR__ . '/vendor/CMB2/init.php';
@@ -28,7 +28,7 @@ $MyUpdateChecker = new PluginUpdateChecker_2_0 (
     1
 );
 
-include( MATERIAL_POST_PATH . 'options-page.php');
+include(MATERIAL_POST_PATH . 'options-page.php');
 
 /**
  * Activation hook
@@ -37,6 +37,7 @@ function materialPostActivation()
 {
     flush_rewrite_rules();
 }
+
 register_activation_hook(__FILE__, 'materialPostActivation');
 
 /**
@@ -46,6 +47,7 @@ function materialPostDeactivation()
 {
     flush_rewrite_rules();
 }
+
 register_deactivation_hook(__FILE__, 'materialPostDeactivation');
 
 /**
@@ -53,24 +55,46 @@ register_deactivation_hook(__FILE__, 'materialPostDeactivation');
  */
 function materialPostNewScripts()
 {
+    /**
+     * Register styles to be used
+     */
+
+    wp_register_style('material-design-icons', 'https://fonts.googleapis.com/icon?family=Material+Icons', '', null);
+
+    wp_register_style('material-post-new-materialize-css', plugin_dir_url(__FILE__) . '/vendor/materialize-src/materialize.css',
+        'material-design-icons', null);
+
+    wp_register_script('material-post-new-materialize-js', plugin_dir_url(__FILE__) . '/vendor/materialize-src/js/bin/materialize.min.js',
+        'jquery', true);
+
+    wp_register_style('material-post-new-styles', plugin_dir_url(__FILE__) . 'material-post-new-styles.css',
+        'material-design-icons', null);
+
+    wp_register_script('material-post-new-buttons', plugin_dir_url(__FILE__) . 'js/buttons.js', 'jquery', null, true);
+
+    /**
+     * Enqueue all dependencies
+     */
+    
     wp_enqueue_script('jquery');
 
     wp_enqueue_script('jquery-ui-core');
 
     wp_enqueue_script('jquery-ui-effects-core');
-
-    wp_enqueue_style ( 'material-design-icons', 'https://fonts.googleapis.com/icon?family=Material+Icons', '', null );
-
-    wp_enqueue_style ( 'materialize-css', plugin_dir_url( __FILE__ ) . '/vendor/materialize-src/materialize.css', 'material-design-icons', null );
-
-    wp_enqueue_script ( 'materialize-js', plugin_dir_url( __FILE__ ) . '/vendor/materialize-src/js/bin/materialize.min.js', 'jquery', true );
-
-    wp_enqueue_style ( 'material-post-new-styles', plugin_dir_url( __FILE__ ) . 'material-post-new-styles.css', 'material-design-icons', null );
-
-    wp_enqueue_script( 'material-post-new-buttons', plugin_dir_url( __FILE__ ) . 'js/buttons.js', 'jquery', null, true );
+    
+    wp_enqueue_style('material-design-icons');
+    
+    wp_enqueue_style('material-post-new-materialize-css');
+    
+    wp_enqueue_script('material-post-new-materialize-js');
+    
+    wp_enqueue_style('material-post-new-styles');
+    
+    wp_enqueue_script('material-post-new-buttons');
 
 }
-add_action('wp_enqueue_scripts','materialPostNewScripts');
+
+add_action('wp_enqueue_scripts', 'materialPostNewScripts');
 
 /**
  * Build options page
@@ -89,7 +113,7 @@ function getAllPostTypes()
     ));
 
     $options = array();
-    foreach($postTypes as $postType) {
+    foreach ($postTypes as $postType) {
         $options[$postType] = $postType;
     }
     return $options;
@@ -107,13 +131,13 @@ function materialPostContent()
     ?>
 
     <div class="fixed-action-btn click-to-toggle" style="bottom: 45px; right: 24px;">
-        <a class="btn-floating btn-large" style="background-color:<?=$mainButtonColor;?>;">
+        <a class="btn-floating btn-large" style="background-color:<?= $mainButtonColor; ?>;">
             <i class="large material-icons">mode_edit</i>
         </a>
         <ul id="material-post-post-types-list">
             <?php
             //Loop through all post types and decide whether to use text URL or WP admin's post new page
-            foreach($buttonPostTypes as $option) {
+            foreach ($buttonPostTypes as $option) {
 
                 $label = $option['post_new_label'];
                 $color = $option['post_type_button_colorpicker'];
@@ -121,7 +145,7 @@ function materialPostContent()
                 $link = materialGetURL($option);
 
 
-                echo '<li><span class="post-new-label btn btn-floating">'. $label .'</span><a href="' . $link . '" class="material-post-new-button btn-floating"><i class="material-icons" style="background-color:' . $color . ';">&#xE150;</i></a></li>';
+                echo '<li><span class="post-new-label btn btn-floating">' . $label . '</span><a href="' . $link . '" class="material-post-new-button btn-floating"><i class="material-icons" style="background-color:' . $color . ';">&#xE150;</i></a></li>';
             }
             ?>
         </ul>
@@ -137,7 +161,8 @@ add_action('wp_footer', 'materialPostContent');
  *
  * @param array $option
  */
-function materialGetURL(Array $option) {
+function materialGetURL(Array $option)
+{
     $method = $option['url_method'];
     $url = $option['post_new_url'];
     $post_type = $option['post_type'];
@@ -150,7 +175,7 @@ function materialGetURL(Array $option) {
     } elseif ($method === 'variable-url') {
         $currentUserID = get_current_user_id();
         $nicename = get_userdata($currentUserID)->user_nicename;
-        $bpUserSlug = bp_core_get_username( $currentUserID );
+        $bpUserSlug = bp_core_get_username($currentUserID);
         $pattern = '/({#})/';
         switch ($variableType) {
             case 'user-id':
