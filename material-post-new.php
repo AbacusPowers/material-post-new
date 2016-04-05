@@ -3,7 +3,7 @@
 Plugin Name: Post New FAB
 Plugin URI:  http://advisantgroup.com
 Description: Add a Google-style, material design floating action button for posting new items. Works with post types or URL links.
-Version:     1.2.0
+Version:     1.2.1
 Author:      Justin Maurer
 Author URI:  http://advisantgroup.com
 License:     GPL2
@@ -127,33 +127,33 @@ function materialPostContent()
     //Get all post types options from options page
     $buttonPostTypes = materialPostGetOption('material_post_post_new_item');
     $mainButtonColor = materialPostGetOption('material_post_post_new_button_colorpicker');
+    if (is_user_logged_in()) {
+        ?>
 
-    ?>
+        <div class="fixed-action-btn click-to-toggle" style="bottom: 45px; right: 24px;">
+            <a class="btn-floating btn-large" style="background-color:<?= $mainButtonColor; ?>;">
+                <i class="large material-icons">mode_edit</i>
+            </a>
+            <ul id="material-post-post-types-list">
+                <?php
+                //Loop through all post types and decide whether to use text URL or WP admin's post new page
+                foreach ($buttonPostTypes as $option) {
 
-    <div class="fixed-action-btn click-to-toggle" style="bottom: 45px; right: 24px;">
-        <a class="btn-floating btn-large" style="background-color:<?= $mainButtonColor; ?>;">
-            <i class="large material-icons">mode_edit</i>
-        </a>
-        <ul id="material-post-post-types-list">
-            <?php
-            //Loop through all post types and decide whether to use text URL or WP admin's post new page
-            foreach ($buttonPostTypes as $option) {
+                    $label = $option['post_new_label'];
+                    $color = $option['post_type_button_colorpicker'];
 
-                $label = $option['post_new_label'];
-                $color = $option['post_type_button_colorpicker'];
-
-                $link = materialGetURL($option);
+                    $link = materialGetURL($option);
 
 
-                echo '<li><span class="post-new-label btn btn-floating">' . $label . '</span><a href="' . $link . '" class="material-post-new-button btn-floating"><i class="material-icons" style="background-color:' . $color . ';">&#xE150;</i></a></li>';
-            }
-            ?>
-        </ul>
-    </div>
-    <div id="material-post-overlay"></div>
-    <?php
+                    echo '<li><span class="post-new-label btn btn-floating">' . $label . '</span><a href="' . $link . '" class="material-post-new-button btn-floating"><i class="material-icons" style="background-color:' . $color . ';">&#xE150;</i></a></li>';
+                }
+                ?>
+            </ul>
+        </div>
+        <div id="material-post-overlay"></div>
+        <?php
+    }
 }
-
 add_action('wp_footer', 'materialPostContent');
 
 /**
