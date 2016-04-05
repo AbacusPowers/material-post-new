@@ -3,7 +3,7 @@
 Plugin Name: Post New FAB
 Plugin URI:  http://advisantgroup.com
 Description: Add a Google-style, material design floating action button for posting new items. Works with post types or URL links.
-Version:     1.1.3
+Version:     1.1.5
 Author:      Justin Maurer
 Author URI:  http://advisantgroup.com
 License:     GPL2
