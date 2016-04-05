@@ -3,7 +3,7 @@
 Plugin Name: Post New FAB
 Plugin URI:  http://advisantgroup.com
 Description: Add a Google-style, material design floating action button for posting new items. Works with post types or URL links.
-Version:     1.1.5
+Version:     1.2.0
 Author:      Justin Maurer
 Author URI:  http://advisantgroup.com
 License:     GPL2
@@ -62,15 +62,15 @@ function materialPostNewScripts()
     wp_register_style('material-design-icons', 'https://fonts.googleapis.com/icon?family=Material+Icons', '', null);
 
     wp_register_style('material-post-new-materialize-css', plugin_dir_url(__FILE__) . '/vendor/materialize-src/materialize.css',
-        'material-design-icons', null);
+        array('material-design-icons'), null);
 
-    wp_register_script('material-post-new-materialize-js', plugin_dir_url(__FILE__) . '/vendor/materialize-src/js/bin/materialize.min.js',
-        'jquery', true);
+    wp_register_script('materialize-js', plugin_dir_url(__FILE__) . '/vendor/materialize-src/js/bin/materialize.min.js',
+        array('jquery'), true);
 
     wp_register_style('material-post-new-styles', plugin_dir_url(__FILE__) . 'material-post-new-styles.css',
-        'material-design-icons', null);
+        array('material-design-icons'), null);
 
-    wp_register_script('material-post-new-buttons', plugin_dir_url(__FILE__) . 'js/buttons.js', 'jquery', null, true);
+    wp_register_script('material-post-new-buttons', plugin_dir_url(__FILE__) . 'js/buttons.js', array('jquery'), null, true);
 
     /**
      * Enqueue all dependencies
@@ -86,7 +86,7 @@ function materialPostNewScripts()
     
     wp_enqueue_style('material-post-new-materialize-css');
     
-    wp_enqueue_script('material-post-new-materialize-js');
+    wp_enqueue_script('materialize-js');
     
     wp_enqueue_style('material-post-new-styles');
     
